@@ -223,10 +223,12 @@ static void do_input_boost(struct kthread_work *work)
 	/* Enable scheduler boost to migrate tasks to big cluster */
 	if (sched_boost_on_input) {
 		ret = sched_set_boost(1);
-		if (ret)
+		if (ret) {
+			sched_boost_on_input = false;
 			pr_err("cpu-boost: HMP boost enable failed\n");
-		else
+		} else {
 			sched_boost_active = true;
+		}
 	}
 
 	queue_delayed_work(system_power_efficient_wq,
