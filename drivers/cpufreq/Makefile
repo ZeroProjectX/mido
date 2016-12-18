@@ -16,6 +16,7 @@ obj-$(CONFIG_CPU_FREQ_GOV_IMPULSE)		+= cpufreq_impulse.o
 
 obj-$(CONFIG_CPU_BOOST)			+= cpu-boost.o
 
+obj-$(CONFIG_CPU_FREQ_GOV_LIONFISH)	   += cpufreq_lionfish.o
 obj-$(CONFIG_CPUFREQ_DT)		+= cpufreq-dt.o
 
 ##################################################################################
