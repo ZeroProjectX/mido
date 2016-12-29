@@ -1002,6 +1002,8 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	display_on = false;
 
+	display_on = false;
+
 end:
 	/* clear idle state */
 	ctrl->idle = false;
