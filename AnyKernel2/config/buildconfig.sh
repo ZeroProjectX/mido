@@ -3,7 +3,7 @@ echo "" >> /system/etc/init.qcom.post_boot.sh
 
 echo " # default freq min/max, gov and i/o sched" >> /system/etc/init.qcom.post_boot.sh
 echo " echo 652800 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq" >> /system/etc/init.qcom.post_boot.sh
-echo " echo 2016000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq" >> /system/etc/init.qcom.post_boot.sh
+echo " echo 1958400 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq" >> /system/etc/init.qcom.post_boot.sh
 echo " echo \"interactive\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" >> /system/etc/init.qcom.post_boot.sh
 echo " echo sio > /sys/block/mmcblk0/queue/scheduler" >> /system/etc/init.qcom.post_boot.sh
 
