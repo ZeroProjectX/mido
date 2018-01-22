@@ -74,10 +74,12 @@ echo "  # read ahead tune up" >> /system/etc/init.qcom.post_boot.sh
 
 SCHED=`grep selected.2 /tmp/aroma/sched.prop | cut -d '=' -f2`
 if [ $SCHED = 1 ]; then
-echo "  echo 256 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
+echo "  echo 128 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
 elif [ $SCHED = 2 ]; then
-echo "  echo 512 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
+echo "  echo 256 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
 elif [ $SCHED = 3 ]; then
+echo "  echo 512 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
+elif [ $SCHED = 4 ]; then
 echo "  echo 768 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh
 else
 echo "  echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /system/etc/init.qcom.post_boot.sh

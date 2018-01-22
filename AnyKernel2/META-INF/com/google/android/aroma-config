@@ -116,17 +116,18 @@ selectbox(
 selectbox(
   "\nI/O Schedulers","<@center><b>\nSelect the I/O scheduler you would like to use</b>\n\n</@>","","sched.prop",
   "Select I/O Scheduler","",2,
-  "cfq","",0,
+  "cfq","",1,
   "deadline","",0,
   "fiops","",0,
   "maple","",0,
   "noop","",0,
   "sio","",0,
   "sioplus","",0,
-  "zen","",1,
+  "zen","",0,
   "Select readahead buffer size","",2,
+  "128","",1,
   "256","",0,
-  "512","(stock)",1,
+  "512","",0,
   "768","",0,
   "1024","",0
 );
