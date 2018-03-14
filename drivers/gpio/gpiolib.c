@@ -65,10 +65,9 @@ static inline void desc_set_label(struct gpio_desc *d, const char *label)
  */
 struct gpio_desc *gpio_to_desc(unsigned gpio)
 {
-	if (!gpio_is_valid(gpio)) {
-		pr_err("invalid GPIO %d\n", gpio);
+	if (WARN(!gpio_is_valid(gpio), "invalid GPIO %d\n", gpio))
 		return NULL;
-	} else
+	else
 		return &gpio_desc[gpio];
 }
 EXPORT_SYMBOL_GPL(gpio_to_desc);
