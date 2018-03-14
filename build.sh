@@ -147,7 +147,7 @@ DATE=$(date +"%Y%m%d-%H%M");
 
 # generate changelog
 echo "generating changelog . . .";
-git --no-pager log --pretty=oneline --abbrev-commit e94a45bf..HEAD > $AROMA/changelog.txt
+git --no-pager log --pretty=oneline --abbrev-commit 72034c1e..HEAD > $AROMA/changelog.txt
 
 #ubah nama device masing-masing (ido)
 ZIP=ZPX-Inferno-$z-Mido-Oreo-$DATE.zip;
