@@ -376,7 +376,6 @@ void rcu_read_unlock_special(struct task_struct *t)
 		if (IS_ENABLED(CONFIG_RCU_BOOST) && drop_boost_mutex) {
 			preempt_disable();
 			rt_mutex_unlock(&rnp->boost_mtx);
-			complete(&rnp->boost_completion);
 			preempt_enable();
 		}
 
