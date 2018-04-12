@@ -272,7 +272,6 @@ enum mdss_intf_events {
 	MDSS_EVENT_PANEL_TIMING_SWITCH,
 	MDSS_EVENT_UPDATE_PARAMS,
 	MDSS_EVENT_MAX,
-	MDSS_EVENT_UPDATE_LIVEDISPLAY,
 };
 
 struct lcd_panel_info {
@@ -593,8 +592,6 @@ struct mdss_mdp_pp_tear_check {
 	u32 refx100;
 };
 
-struct mdss_livedisplay_ctx;
-
 struct mdss_panel_roi_alignment {
 	u32 xstart_pix_align;
 	u32 width_pix_align;
@@ -747,8 +744,6 @@ struct mdss_panel_info {
 	 * configuring the event timer wakeup logic.
 	 */
 	u32 adjust_timer_delay_ms;
-
-	struct mdss_livedisplay_ctx *livedisplay;
 
 	/* debugfs structure for the panel */
 	struct mdss_panel_debugfs_info *debugfs_info;
