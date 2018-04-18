@@ -1557,7 +1557,8 @@ static int smb1351_hw_init(struct smb1351_charger *chip)
 			pr_debug("set IGNORE_FALSE_NEGATIVE_ISENSE failed, rc=%d\n",
 								rc);
 			/* start a delay worker to do it again if failed */
-			schedule_delayed_work(&chip->init_fg_work,
+			queue_delayed_work(system_power_efficient_wq,
+				&chip->init_fg_work,
 				msecs_to_jiffies(INIT_FG_RETRY_MS));
 		} else if (chip->fg_notify_jeita) {
 			rc = smb1351_set_bms_property(chip,
@@ -2134,7 +2135,8 @@ static void smb1351_parallel_work(struct work_struct *work)
 	return;
 recheck:
 	pr_debug("reschedule!\n");
-	schedule_delayed_work(&chip->parallel.parallel_work, 0);
+	queue_delayed_work(system_power_efficient_wq,
+			   &chip->parallel.parallel_work, 0);
 }
 
 static void smb1351_parallel_check_start(struct smb1351_charger *chip)
@@ -2146,7 +2148,8 @@ static void smb1351_parallel_check_start(struct smb1351_charger *chip)
 
 	cancel_delayed_work_sync(&chip->parallel.parallel_work);
 	smb1351_stay_awake(&chip->smb1351_ws, PARALLEL_CHARGE);
-	schedule_delayed_work(&chip->parallel.parallel_work, 0);
+	queue_delayed_work(system_power_efficient_wq,
+			   &chip->parallel.parallel_work, 0);
 	pr_debug("parallel work scheduled\n");
 }
 
@@ -2174,7 +2177,8 @@ static void smb1351_init_fg_work(struct work_struct *work)
 	return;
 recheck:
 	/* start a delay worker to do it again if failed */
-	schedule_delayed_work(&chip->init_fg_work,
+	queue_delayed_work(system_power_efficient_wq,
+			&chip->init_fg_work,
 			msecs_to_jiffies(INIT_FG_RETRY_MS));
 }
 
@@ -2954,7 +2958,8 @@ static int smb1351_apsd_complete_handler(struct smb1351_charger *chip,
 		} else if (type == POWER_SUPPLY_TYPE_USB_DCP) {
 			pr_debug("schedule hvdcp detection worker\n");
 			smb1351_stay_awake(&chip->smb1351_ws, HVDCP_DETECT);
-			schedule_delayed_work(&chip->hvdcp_det_work,
+			queue_delayed_work(system_power_efficient_wq,
+					&chip->hvdcp_det_work,
 					msecs_to_jiffies(HVDCP_NOTIFY_MS));
 		}
 
@@ -3031,7 +3036,8 @@ end:
 
 reschedule:
 	pr_debug("reschedule after 1s\n");
-	schedule_delayed_work(&chip->chg_remove_work,
+	queue_delayed_work(system_power_efficient_wq,
+				&chip->chg_remove_work,
 				msecs_to_jiffies(SECOND_CHECK_DELAY_MS));
 }
 
@@ -3089,7 +3095,8 @@ static int smb1351_usbin_uv_handler(struct smb1351_charger *chip, u8 status)
 		if (chip->apsd_rerun)
 			chg_remove_delay = RERUN_CHG_REMOVE_DELAY_MS;
 		smb1351_stay_awake(&chip->smb1351_ws, REMOVAL_DETECT);
-		schedule_delayed_work(&chip->chg_remove_work,
+		queue_delayed_work(system_power_efficient_wq,
+					&chip->chg_remove_work,
 					msecs_to_jiffies(chg_remove_delay));
 	} else {
 		cancel_delayed_work_sync(&chip->chg_remove_work);
@@ -3286,7 +3293,8 @@ done:
 	return;
 
 recheck:
-	schedule_delayed_work(&chip->iterm_check_soc_work,
+	queue_delayed_work(system_power_efficient_wq,
+			&chip->iterm_check_soc_work,
 			msecs_to_jiffies(ITERM_CHECK_MS));
 }
 
@@ -3342,7 +3350,8 @@ static int smb1351_chg_term_handler(struct smb1351_charger *chip, u8 status)
 				return rc;
 			}
 			smb1351_stay_awake(&chip->smb1351_ws, ITERM_CHECK_SOC);
-			schedule_delayed_work(&chip->iterm_check_soc_work, 0);
+			queue_delayed_work(system_power_efficient_wq,
+					   &chip->iterm_check_soc_work, 0);
 		} else {
 			pr_debug("Terminated, FG report full\n");
 			chip->batt_full = true;
@@ -4364,7 +4373,8 @@ static int smb1351_determine_initial_state(struct smb1351_charger *chip)
 		smb1351_usbin_uv_handler(chip, 1);
 	} else {
 		smb1351_stay_awake(&chip->smb1351_ws, RERUN_APSD);
-		schedule_delayed_work(&chip->rerun_apsd_work,
+		queue_delayed_work(system_power_efficient_wq,
+				&chip->rerun_apsd_work,
 				msecs_to_jiffies(RERUN_APSD_DELAY_MS));
 	}
 
