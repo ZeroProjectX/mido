@@ -1,7 +1,7 @@
 #!/sbin/sh
 
 echo "#!/system/bin/sh" >> /tmp/init.inferno.sh
-
+echo "" >> /tmp/init.inferno.sh
 echo "  # min freq" >> /tmp/init.inferno.sh
 cpu0=`grep selected.1 /tmp/aroma/cpu0.prop | cut -d '=' -f2`
 if [ $cpu0 = 1 ]; then
@@ -72,8 +72,9 @@ else
 echo "  echo zen > /sys/block/mmcblk0/queue/scheduler" >> /tmp/init.inferno.sh
 fi
 
-echo "  # read ahead tune up" >> /tmp/init.inferno.sh
+echo "" >> /tmp/init.inferno.sh
 
+echo "  # read ahead tune up" >> /tmp/init.inferno.sh
 SCHED=`grep selected.2 /tmp/aroma/sched.prop | cut -d '=' -f2`
 if [ $SCHED = 1 ]; then
 echo "  echo 128 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/init.inferno.sh
@@ -90,7 +91,6 @@ fi
 echo "" >> /tmp/init.inferno.sh
 
 echo "  # KCAL " >> /tmp/init.inferno.sh
-
 misc=`grep selected.1 /tmp/aroma/misc.prop | cut -d '=' -f2`
 if [ $misc = 2 ]; then
 echo "  echo 217 215 255 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
@@ -130,7 +130,6 @@ fi
 echo "" >> /tmp/init.inferno.sh
 
 echo "  # set vibrator intensity" >> /tmp/init.inferno.sh
-
 misc=`grep selected.2 /tmp/aroma/misc.prop | cut -d '=' -f2`
 if [ $misc = 1 ]; then
 echo "  echo 1322 > /sys/class/timed_output/vibrator/vtg_level" >> /tmp/init.inferno.sh
@@ -143,7 +142,6 @@ fi
 echo "" >> /tmp/init.inferno.sh
 
 echo "  # This Command For Enable Zram Actived" >> /tmp/init.inferno.sh
-
 misc=`grep selected.3 /tmp/aroma/misc.prop | cut -d '=' -f2`
 if [ $misc = 1 ]; then
 echo "  swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
