@@ -42,6 +42,11 @@ insert_line init.rc "init.zpx.rc" before "import /init.usb.rc" "import /init.zpx
 cp /tmp/init.inferno.sh /tmp/anykernel/ramdisk/init.inferno.sh
 chmod 0750 /tmp/anykernel/ramdisk/init.inferno.sh
 
+#move to init.inferno.sh
+remove_line init.qcom.rc "    #Reset read ahead for dm-0 and dm-1 to 512kb"
+remove_line init.qcom.rc "    write /sys/block/dm-0/queue/read_ahead_kb 512"
+remove_line init.qcom.rc "    write /sys/block/dm-1/queue/read_ahead_kb 512"
+
 # end ramdisk changes
 
 write_boot;

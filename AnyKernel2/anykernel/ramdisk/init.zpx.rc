@@ -18,12 +18,6 @@ on property:sys.boot_completed=1
 	# stock value is 512k
 	setprop dalvik.vm.heapminfree 2m
 
-	# I/O
-	write /sys/block/sda/queue/nr_requests 128
-	write /sys/block/dm-0/queue/read_ahead_kb 128
-	write /sys/block/dm-1/queue/read_ahead_kb 128
-	write /sys/block/sda/queue/iostats 1
-
 	# Set idle GPU to 133 Mhz
 	write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 6
     
