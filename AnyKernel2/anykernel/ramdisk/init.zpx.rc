@@ -27,6 +27,9 @@ on property:sys.boot_completed=1
 	# Set idle GPU to 133 Mhz
 	write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 6
 	
+	# enable force fast charge
+	write /sys/kernel/fast_charge/force_fast_charge 1
+
 	# start inferno service
 	start inferno
 	
