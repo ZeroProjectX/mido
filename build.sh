@@ -116,7 +116,7 @@ fi
 if [ "$choice" == "4" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   rm -rf $ZIP_DIR/*.zip*
-  rm -rf $ZIP_DIR/anykernel/treble-*/*.dtb
+  rm -rf $ZIP_DIR/anykernel/treble-*
   rm -rf $ZIP_DIR/anykernel/Image.gz
   echo -e "$purple(i)AnyKernel2 cleaned up.$nc"
   echo -e "$cyan#######################################################################$nc"
@@ -127,8 +127,10 @@ if [ "$choice" == "5" ]; then
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $KERN_IMG $ZIP_DIR/anykernel
+  mkdir $ZIP_DIR/anykernel/treble-supported
+  mkdir $ZIP_DIR/anykernel/treble-unsupported
   cp $DTB1 $ZIP_DIR/anykernel/treble-unsupported/msm8953-qrd-sku3-mido.dtb
-  cp $DTB2 $ZIP_DIR/anykernel/treble-supported
+  cp $DTB2 $ZIP_DIR/anykernel/treble-supported/msm8953-qrd-sku3-mido.dtb
   make &>/dev/null
   cd ..
   echo -e "$purple(i)Flashable zip generated under $ZIP_DIR.$nc"
