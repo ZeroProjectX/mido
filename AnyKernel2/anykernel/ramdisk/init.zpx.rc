@@ -31,6 +31,9 @@ on property:sys.boot_completed=1
 	write /sys/module/cpu_boost/parameters/input_boost_freq "0:1036800 1:1036800 2:1036800 3:1036800 4:0 5:0 6:0 7:0"
 	write /sys/module/cpu_boost/parameters/input_boost_ms 1500
 	
+	# enable force fast charge
+	write /sys/kernel/fast_charge/force_fast_charge 1
+
 	# start inferno service
 	start inferno
 	
