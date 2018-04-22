@@ -19,5 +19,5 @@ $(ZIP):
 clean:
 	@rm -vf "$(NAME)-"*.zip*
 	@rm -vf anykernel/Image.gz
-	@rm -vf anykernel/treble*/*.dtb
+	@rm -rvf anykernel/treble*
 	@echo "Done."
