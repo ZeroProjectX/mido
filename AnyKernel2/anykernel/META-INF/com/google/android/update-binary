@@ -80,14 +80,18 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.treblestatus)" == 1 ]; then
       ui_print "Treble status : Supported";
       mount -o rw,remount -t auto /vendor;
       cp -rf /tmp/anykernel/patch/thermal-engine.conf /vendor/etc/thermal-engine.conf;
+      cp -rf /tmp/anykernel/patch/init.qcom.post_boot.sh /vendor/bin/init.qcom.post_boot.sh;
       chmod 0644 /vendor/etc/thermal-engine.conf;
+      chmod 0755 /vendor/bin/init.qcom.post_boot.sh;
       mount -o ro,remount -t auto /vendor;
     else
       dtb=/tmp/anykernel/treble-unsupported;
       ui_print "Treble status : Unsupported";
       mount -o rw,remount -t auto /system;
       cp -rf /tmp/anykernel/patch/thermal-engine.conf /system/vendor/etc/thermal-engine.conf;
+      cp -rf /tmp/anykernel/patch/init.qcom.post_boot.sh /system/vendor/bin/init.qcom.post_boot.sh;
       chmod 0644 /system/vendor/etc/thermal-engine.conf;
+      chmod 0755 /system/vendor/bin/init.qcom.post_boot.sh;
       mount -o ro,remount -t auto /system;
     fi;
 fi;

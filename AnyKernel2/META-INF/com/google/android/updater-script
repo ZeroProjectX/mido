@@ -11,6 +11,14 @@ ui_print("Extracting Busybox, and setting up..");
 package_extract_file("anykernel/tools/busybox", "/tmp/busybox");
 set_perm(0, 0, 0777, "/tmp/busybox");
 
+set_progress(0.2);
+ui_print("Mounting /data");
+run_program("/tmp/busybox", "mount", "/data");
+
+set_progress(0.3);
+ui_print("Mounting /system");
+run_program("/tmp/busybox", "mount", "/system");
+
 set_progress(0.3);
 ui_print("Setting Permissions...");
 package_extract_dir("anykernel", "/tmp/anykernel");

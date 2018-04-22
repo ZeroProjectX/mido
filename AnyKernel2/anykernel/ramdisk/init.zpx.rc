@@ -18,11 +18,7 @@ on property:sys.boot_completed=1
 	# stock value is 512k
 	setprop dalvik.vm.heapminfree 2m
 
-	# Enable KCAL
-	write /sys/devices/platform/kcal_ctrl.0/kcal_enable 1
-
 	# I/O
-	write /sys/block/sda/queue/read_ahead_kb 128
 	write /sys/block/sda/queue/nr_requests 128
 	write /sys/block/dm-0/queue/read_ahead_kb 128
 	write /sys/block/dm-1/queue/read_ahead_kb 128
@@ -34,12 +30,6 @@ on property:sys.boot_completed=1
 	# Set cpu-boost    
 	write /sys/module/cpu_boost/parameters/input_boost_freq "0:1036800 1:1036800 2:1036800 3:1036800 4:0 5:0 6:0 7:0"
 	write /sys/module/cpu_boost/parameters/input_boost_ms 1500
-	
-	# Enable wq power efficient
-	write /sys/module/workqueue/parameters/power_efficient Y
-	
-	# Tune-up LMK
-	write /sys/module/lowmemorykiller/parameters/minfree 80640,38400,27648,32256,55296,80640
 	
 	# start inferno service
 	start inferno
