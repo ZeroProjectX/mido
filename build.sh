@@ -51,8 +51,9 @@ while true; do
 echo -e "\n$green[1]Build kernel"
 echo -e "[2]Regenerate defconfig"
 echo -e "[3]Source cleanup"
-echo -e "[4]Generate flashable zip"
-echo -e "[5]Quit$nc"
+echo -e "[4]AnyKernel2 cleanup"
+echo -e "[5]Generate flashable zip"
+echo -e "[6]Quit$nc"
 echo -ne "\n$blue(i)Please enter a choice[1-5]:$nc "
 
 read choice
@@ -104,10 +105,6 @@ fi
 if [ "$choice" == "3" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   rm -f $KERN_IMG
-  rm -f $ZIP_DIR/anykernel/Image.gz
-  rm -f $ZIP_DIR/anykernel/treble-unsupported/*.dtb
-  rm -f $ZIP_DIR/anykernel/treble-supported/*.dtb
-  rm -f $ZIP_DIR/anykernel/*.zip*
   make clean
   make mrproper
   make clean O=out/
@@ -116,8 +113,16 @@ if [ "$choice" == "3" ]; then
   echo -e "$cyan#######################################################################$nc"
 fi
 
-
 if [ "$choice" == "4" ]; then
+  echo -e "\n$cyan#######################################################################$nc"
+  rm -rf $ZIP_DIR/*.zip*
+  rm -rf $ZIP_DIR/anykernel/treble-*/*.dtb
+  rm -rf $ZIP_DIR/anykernel/Image.gz
+  echo -e "$purple(i)AnyKernel2 cleaned up.$nc"
+  echo -e "$cyan#######################################################################$nc"
+fi
+
+if [ "$choice" == "5" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   cd $ZIP_DIR
   make clean &>/dev/null
@@ -131,7 +136,7 @@ if [ "$choice" == "4" ]; then
 fi
 
 
-if [ "$choice" == "5" ]; then
+if [ "$choice" == "6" ]; then
  exit 1
 fi
 done
