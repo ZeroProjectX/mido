@@ -17,13 +17,3 @@ echo " echo 650000000 > /sys/class/kgsl/kgsl-3d0/devfreq/max_freq" >> /tmp/init.
 echo " echo 650000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk" >> /tmp/init.inferno.sh
 
 echo "" >> /tmp/init.inferno.sh
-
-echo " # This Command For Enable Zram Actived" >> /tmp/init.inferno.sh
-echo " swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
-echo " echo 1 > /sys/block/zram0/reset" >> /tmp/init.inferno.sh
-echo " echo 1073741824 > /sys/block/zram0/disksize" >> /tmp/init.inferno.sh
-echo " mkswap /dev/block/zram0" >> /tmp/init.inferno.sh
-echo " swapon /dev/block/zram0" >> /tmp/init.inferno.sh
-
-echo "" >> /tmp/init.inferno.sh
-

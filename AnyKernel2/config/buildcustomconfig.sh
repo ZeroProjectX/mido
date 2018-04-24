@@ -162,17 +162,19 @@ echo "  # This Command For Enable Zram Actived" >> /tmp/init.inferno.sh
 misc=`grep selected.3 /tmp/aroma/misc.prop | cut -d '=' -f2`
 if [ $misc = 1 ]; then
 echo "  swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
+elif [ $misc = 2 ]; then
+echo "  swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
 echo "  echo 1 > /sys/block/zram0/reset" >> /tmp/init.inferno.sh
 echo "  echo 824180736 > /sys/block/zram0/disksize" >> /tmp/init.inferno.sh
 echo "  mkswap /dev/block/zram0" >> /tmp/init.inferno.sh
 echo "  swapon /dev/block/zram0" >> /tmp/init.inferno.sh
-elif [ $misc = 2 ]; then
+elif [ $misc = 3 ]; then
 echo "  swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
 echo "  echo 1 > /sys/block/zram0/reset" >> /tmp/init.inferno.sh
 echo "  echo 1073741824 > /sys/block/zram0/disksize" >> /tmp/init.inferno.sh
 echo "  mkswap /dev/block/zram0" >> /tmp/init.inferno.sh
 echo "  swapon /dev/block/zram0" >> /tmp/init.inferno.sh
-elif [ $misc = 3 ]; then
+elif [ $misc = 4 ]; then
 echo "  swapoff /dev/block/zram0" >> /tmp/init.inferno.sh
 echo "  echo 1 > /sys/block/zram0/reset" >> /tmp/init.inferno.sh
 echo "  echo 1610612736 > /sys/block/zram0/disksize" >> /tmp/init.inferno.sh
