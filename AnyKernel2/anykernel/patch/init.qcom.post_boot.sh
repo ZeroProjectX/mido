@@ -1,6 +1,6 @@
 #! /vendor/bin/sh
 
-# Copyright (c) 2012-2013, 2016, The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2013, 2016-2018, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,9 @@
 # Modified by Yudi Widiyanto (yudiwidiyanto7@gmail.com)
 #
 
+target=`getprop ro.board.platform`
 
+function configure_memory_parameters() {
     # Set Memory paremeters.
     #
     # Set per_process_reclaim tuning parameters
@@ -59,6 +61,7 @@
     # Normalized ADJ for HOME is 6. Hence multiply by 6
     # ADJ score represented as INT in LMK params, actual score can be in decimal
     # Hence add 6 considering a worst case of 0.9 conversion to INT (0.9*6).
+    # For uLMK + Memcg, this will be set as 6 since adj is zero.
     set_almk_ppr_adj=$(((set_almk_ppr_adj * 6) + 6))
     echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
     echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
@@ -68,60 +71,84 @@
     echo 70 > /sys/module/process_reclaim/parameters/pressure_max
     echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
     echo 0 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
-    echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-	echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
-	echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
-	echo '80' > /proc/sys/vm/overcommit_ratio
-	echo '400' > /proc/sys/vm/vfs_cache_pressure
-	echo '24300' > /proc/sys/vm/extra_free_kbytes
-	echo '128' > /proc/sys/kernel/random/read_wakeup_threshold
-	echo '256' > /proc/sys/kernel/random/write_wakeup_threshold
-	echo '0' > /sys/block/mmcblk0/queue/iostats
-	echo '1' > /sys/block/mmcblk0/queue/add_random
-	echo '0' > /sys/block/mmcblk1/queue/iostats
-	echo '1' > /sys/block/mmcblk1/queue/add_random
-	echo '4096' > /proc/sys/vm/min_free_kbytes
-	echo '0' > /proc/sys/vm/oom_kill_allocating_task
-	echo '90' > /proc/sys/vm/dirty_ratio
-	echo '70' > /proc/sys/vm/dirty_background_ratio
-	chmod 666 /sys/module/lowmemorykiller/parameters/minfree
-	chown root /sys/module/lowmemorykiller/parameters/minfree
-	echo '21816,29088,36360,43632,50904,65448' > /sys/module/lowmemorykiller/parameters/minfree
-    MemTotalStr=`cat /proc/meminfo | grep MemTotal`
-    MemTotal=${MemTotalStr:16:8}
+    echo 10 > /sys/module/process_reclaim/parameters/pressure_min
+    echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
+    echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
+    echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+    echo "80" > /proc/sys/vm/overcommit_ratio
+    echo "400" > /proc/sys/vm/vfs_cache_pressure
+    echo "24300" > /proc/sys/vm/extra_free_kbytes
+    echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "256" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "0" > /sys/block/mmcblk0/queue/iostats
+    echo "1" > /sys/block/mmcblk0/queue/add_random
+    echo "0" > /sys/block/mmcblk1/queue/iostats
+    echo "1" > /sys/block/mmcblk1/queue/add_random
+    echo "4096" > /proc/sys/vm/min_free_kbytes
+    echo "0" > /proc/sys/vm/oom_kill_allocating_task
+    echo "90" > /proc/sys/vm/dirty_ratio
+    echo "70" > /proc/sys/vm/dirty_background_ratio
+    chmod 666 /sys/module/lowmemorykiller/parameters/minfree
+    chown root /sys/module/lowmemorykiller/parameters/minfree
+    echo "21816,29088,36360,43632,50904,65448" > /sys/module/lowmemorykiller/parameters/minfree
+    echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+}
 
-    if [ $MemTotal -le 2097152 ]; then
-        #Enable B service adj transition for 2GB or less memory
-        setprop ro.vendor.qti.sys.fw.bservice_enable true
-        setprop ro.vendor.qti.sys.fw.bservice_limit 5
-        setprop ro.vendor.qti.sys.fw.bservice_age 5000
+function start_hbtp()
+{
+        # Start the Host based Touch processing but not in the power off mode.
+        bootmode=`getprop ro.bootmode`
+        if [ "charger" != $bootmode ]; then
+                start hbtp
+        fi
+}
 
-        #Enable Delay Service Restart
-        setprop ro.vendor.qti.am.reschedule_service true
-    fi
+case "$target" in
+    "msm8953")
 
-                #scheduler settings
-                echo 3 > /proc/sys/kernel/sched_window_stats_policy
-                echo 3 > /proc/sys/kernel/sched_ravg_hist_size
-                #task packing settings
-                echo 0 > /sys/devices/system/cpu/cpu0/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu1/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu2/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu3/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu4/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu5/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu6/sched_static_cpu_pwr_cost
-                echo 0 > /sys/devices/system/cpu/cpu7/sched_static_cpu_pwr_cost
+        if [ -f /sys/devices/soc0/soc_id ]; then
+            soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+            soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+            hw_platform=`cat /sys/devices/soc0/hw_platform`
+        else
+            hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+
+        if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+            platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+        fi
+
+        case "$soc_id" in
+            "293" | "304" | "338" | "351")
+
+                # Start Host based Touch processing
+                case "$hw_platform" in
+                     "MTP" | "Surf" | "RCM" )
+                        #if this directory is present, it means that a
+                        #1200p panel is connected to the device.
+                        dir="/sys/bus/i2c/devices/3-0038"
+                        if [ ! -d "$dir" ]; then
+                              start_hbtp
+                        fi
+                        ;;
+                esac
+
+                if [ $soc_id -eq "338" ]; then
+                    case "$hw_platform" in
+                        "QRD" )
+                            if [ $platform_subtype_id -eq "1" ]; then
+                               start_hbtp
+                            fi
+                            ;;
+                    esac
+                fi
 
                 #init task load, restrict wakeups to preferred cluster
                 echo 15 > /proc/sys/kernel/sched_init_task_load
-                # spill load is set to 100% by default in the kernel
-                echo 3 > /proc/sys/kernel/sched_spill_nr_run
-                # Apply inter-cluster load balancer restrictions
-                echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
-
-                # set sync wakee policy tunable
-                echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
 
                 for devfreq_gov in /sys/class/devfreq/qcom,mincpubw*/governor
                 do
@@ -182,29 +209,6 @@
                     echo 40 > $gpu_bimc_io_percent
                 done
 
-		# Configure DCC module to capture critical register contents when device crashes
-		for DCC_PATH in /sys/bus/platform/devices/*.dcc*
-		do
-			echo  0 > $DCC_PATH/enable
-			echo cap >  $DCC_PATH/func_type
-			echo sram > $DCC_PATH/data_sink
-			echo  1 > $DCC_PATH/config_reset
-
-			# Register specifies APC CPR closed-loop settled voltage for current voltage corner
-			echo 0xb1d2c18 1 > $DCC_PATH/config
-
-			# Register specifies SW programmed open-loop voltage for current voltage corner
-			echo 0xb1d2900 1 > $DCC_PATH/config
-
-			# Register specifies APM switch settings and APM FSM state
-			echo 0xb1112b0 1 > $DCC_PATH/config
-
-			# Register specifies CPR mode change state and also #online cores input to CPR HW
-			echo 0xb018798 1 > $DCC_PATH/config
-
-			echo  1 > $DCC_PATH/enable
-		done
-
                 # disable thermal & BCL core_control to update interactive gov settings
                 echo 0 > /sys/module/msm_thermal/core_control/enabled
                 for mode in /sys/devices/soc.0/qcom,bcl.*/mode
@@ -226,17 +230,42 @@
                     echo -n enable > $mode
                 done
 
-                #governor settings
-                echo 1 > /sys/devices/system/cpu/cpu0/online
-                echo "19000 1401600:39000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-                echo 85 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-                echo 20000 > /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-                echo 1401600 > /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-                echo 1 > /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-                echo "85 1401600:80" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
-                echo 39000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-                echo 40000 > /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
-                echo 652800 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    #scheduler settings
+    echo 3 > /proc/sys/kernel/sched_window_stats_policy
+    echo 3 > /proc/sys/kernel/sched_ravg_hist_size
+    #task packing settings
+    echo 0 > /sys/devices/system/cpu/cpu0/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu1/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu2/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu3/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu4/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu5/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu6/sched_static_cpu_pwr_cost
+    echo 0 > /sys/devices/system/cpu/cpu7/sched_static_cpu_pwr_cost
+    # spill load is set to 100% by default in the kernel
+    echo 3 > /proc/sys/kernel/sched_spill_nr_run
+    # Apply inter-cluster load balancer restrictions
+    echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
+    # set sync wakee policy tunable
+    echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
+
+    #governor settings
+    echo 1 > /sys/devices/system/cpu/cpu0/online
+    echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    echo "19000 1401600:39000" > /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    echo 85 > /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    echo 20000 > /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    echo 1401600 > /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
+    echo 0 > /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+    echo "85 1401600:80" > /sys/devices/system/cpu/cpufreq/interactive/target_loads
+    echo 39000 > /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    echo 40000 > /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
+    echo 19 > /proc/sys/kernel/sched_upmigrate_min_nice
+    # Enable sched guided freq control
+    echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_sched_load
+    echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif
+    echo 200000 > /proc/sys/kernel/sched_freq_inc_notify
+    echo 200000 > /proc/sys/kernel/sched_freq_dec_notify
 
                 # re-enable thermal & BCL core_control now
                 echo 1 > /sys/module/msm_thermal/core_control/enabled
@@ -272,14 +301,112 @@
                 # SMP scheduler
                 echo 85 > /proc/sys/kernel/sched_upmigrate
                 echo 85 > /proc/sys/kernel/sched_downmigrate
-                echo 19 > /proc/sys/kernel/sched_upmigrate_min_nice
 
-                # Enable sched guided freq control
-                echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_sched_load
-                echo 1 > /sys/devices/system/cpu/cpufreq/interactive/use_migration_notif
-                echo 200000 > /proc/sys/kernel/sched_freq_inc_notify
-                echo 200000 > /proc/sys/kernel/sched_freq_dec_notify
+            ;;
+        esac
+        case "$soc_id" in
+            "349" | "350")
 
+            # Start Host based Touch processing
+            case "$hw_platform" in
+                 "MTP" | "Surf" | "RCM" | "QRD" )
+                          start_hbtp
+                    ;;
+            esac
+
+            for devfreq_gov in /sys/class/devfreq/qcom,mincpubw*/governor
+            do
+                echo "cpufreq" > $devfreq_gov
+            done
+            for cpubw in /sys/class/devfreq/*qcom,cpubw*
+            do
+                echo "bw_hwmon" > $cpubw/governor
+                echo 50 > $cpubw/polling_interval
+                echo "1611 3221 5859 6445 7104" > $cpubw/bw_hwmon/mbps_zones
+                echo 4 > $cpubw/bw_hwmon/sample_ms
+                echo 34 > $cpubw/bw_hwmon/io_percent
+                echo 20 > $cpubw/bw_hwmon/hist_memory
+                echo 0 > $cpubw/bw_hwmon/hyst_length
+                echo 0 > $cpubw/bw_hwmon/guard_band_mbps
+                echo 250 > $cpubw/bw_hwmon/up_scale
+                echo 1600 > $cpubw/bw_hwmon/idle_mbps
+            done
+
+            # Configure DCC module to capture critical register contents when device crashes
+            for DCC_PATH in /sys/bus/platform/devices/*.dcc*
+            do
+                echo  0 > $DCC_PATH/enable
+                echo cap >  $DCC_PATH/func_type
+                echo sram > $DCC_PATH/data_sink
+                echo  1 > $DCC_PATH/config_reset
+
+                # Register specifies APC CPR closed-loop settled voltage for current voltage corner
+                echo 0xb1d2c18 1 > $DCC_PATH/config
+
+                # Register specifies SW programmed open-loop voltage for current voltage corner
+                echo 0xb1d2900 1 > $DCC_PATH/config
+
+                # Register specifies APM switch settings and APM FSM state
+                echo 0xb1112b0 1 > $DCC_PATH/config
+
+                # Register specifies CPR mode change state and also #online cores input to CPR HW
+                echo 0xb018798 1 > $DCC_PATH/config
+
+                echo  1 > $DCC_PATH/enable
+            done
+
+            # disable thermal & BCL core_control to update interactive gov settings
+            echo 0 > /sys/module/msm_thermal/core_control/enabled
+            for mode in /sys/devices/soc.0/qcom,bcl.*/mode
+            do
+                echo -n disable > $mode
+            done
+            for hotplug_mask in /sys/devices/soc.0/qcom,bcl.*/hotplug_mask
+            do
+                bcl_hotplug_mask=`cat $hotplug_mask`
+                echo 0 > $hotplug_mask
+            done
+            for hotplug_soc_mask in /sys/devices/soc.0/qcom,bcl.*/hotplug_soc_mask
+            do
+                bcl_soc_hotplug_mask=`cat $hotplug_soc_mask`
+                echo 0 > $hotplug_soc_mask
+            done
+            for mode in /sys/devices/soc.0/qcom,bcl.*/mode
+            do
+                echo -n enable > $mode
+            done
+
+            # Disable Core control
+            echo 0 > /sys/devices/system/cpu/cpu0/core_ctl/enable
+            echo 0 > /sys/devices/system/cpu/cpu4/core_ctl/enable
+
+            # Bring up all cores online
+            echo 1 > /sys/devices/system/cpu/cpu1/online
+            echo 1 > /sys/devices/system/cpu/cpu2/online
+            echo 1 > /sys/devices/system/cpu/cpu3/online
+            echo 1 > /sys/devices/system/cpu/cpu4/online
+            echo 1 > /sys/devices/system/cpu/cpu5/online
+            echo 1 > /sys/devices/system/cpu/cpu6/online
+            echo 1 > /sys/devices/system/cpu/cpu7/online
+
+            # Enable low power modes
+            echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
+
+            # Set Memory parameters
+            configure_memory_parameters
+
+            # Setting b.L scheduler parameters
+            echo 76 > /proc/sys/kernel/sched_downmigrate
+            echo 86 > /proc/sys/kernel/sched_upmigrate
+            echo 80 > /proc/sys/kernel/sched_group_downmigrate
+            echo 90 > /proc/sys/kernel/sched_group_upmigrate
+
+            setprop sys.post_boot.parsed 1
+
+            ;;
+        esac
+    ;;
+esac
 
 # Let kernel know our image version/variant/crm_version
 if [ -f /sys/devices/soc0/select_image ]; then
