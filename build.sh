@@ -116,6 +116,7 @@ if [ "$choice" == "4" ]; then
   cp $KERN_IMG $ZIP_DIR/anykernel
   make &>/dev/null
   cp $ZIP_DIR/*.zip* ~/mido/
+  make clean &>/dev/null
   cd ..
   echo -e "$purple(i)Flashable zip generated under $ZIP_DIR.$nc"
   echo -e "$cyan#######################################################################$nc"
