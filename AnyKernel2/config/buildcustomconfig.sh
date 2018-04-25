@@ -105,7 +105,6 @@ fi
 echo "" >> /tmp/init.inferno.sh
 
 echo "  # KCAL " >> /tmp/init.inferno.sh
-
 misc=`grep selected.1 /tmp/aroma/misc.prop | cut -d '=' -f2`
 if [ $misc = 2 ]; then
 echo "  echo 217 215 255 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
@@ -138,8 +137,8 @@ echo "  echo 254 > /sys/devices/platform/kcal_ctrl.0/kcal_val" >> /tmp/init.infe
 echo "  echo 256 > /sys/devices/platform/kcal_ctrl.0/kcal_cont" >> /tmp/init.inferno.sh
 echo "  echo 1515 > /sys/devices/platform/kcal_ctrl.0/kcal_hue" >> /tmp/init.inferno.sh
 else
-echo "  echo 256 256 256 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
-echo "  echo 255 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
+echo "  echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
+echo "  echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
 fi
 
 echo "" >> /tmp/init.inferno.sh
