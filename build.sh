@@ -49,9 +49,8 @@ while true; do
 echo -e "\n$green[1]Build kernel"
 echo -e "[2]Regenerate defconfig"
 echo -e "[3]Source cleanup"
-echo -e "[4]AnyKernel2 cleanup"
-echo -e "[5]Generate flashable zip"
-echo -e "[6]Quit$nc"
+echo -e "[4]Generate flashable zip"
+echo -e "[5]Quit$nc"
 echo -ne "\n$blue(i)Please enter a choice[1-5]:$nc "
 
 read choice
@@ -112,25 +111,18 @@ fi
 
 if [ "$choice" == "4" ]; then
   echo -e "\n$cyan#######################################################################$nc"
-  rm -rf $ZIP_DIR/anykernel/Image.gz-dtb
-  rm -rf $ZIP_DIR/*.zip*
-  echo -e "$purple(i)AnyKernel2 cleaned up.$nc"
-  echo -e "$cyan#######################################################################$nc"
-fi
-
-if [ "$choice" == "5" ]; then
-  echo -e "\n$cyan#######################################################################$nc"
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $KERN_IMG $ZIP_DIR/anykernel
   make &>/dev/null
+  cp $ZIP_DIR/*.zip* ~/mido/
   cd ..
   echo -e "$purple(i)Flashable zip generated under $ZIP_DIR.$nc"
   echo -e "$cyan#######################################################################$nc"
 fi
 
 
-if [ "$choice" == "6" ]; then
+if [ "$choice" == "5" ]; then
  exit 1
 fi
 done
