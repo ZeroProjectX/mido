@@ -71,8 +71,7 @@ function configure_memory_parameters() {
     echo 70 > /sys/module/process_reclaim/parameters/pressure_max
     echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
     echo 0 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
-    echo 10 > /sys/module/process_reclaim/parameters/pressure_min
-    echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
+    echo 50 > /sys/module/process_reclaim/parameters/pressure_min
     echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
     echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
     echo "80" > /proc/sys/vm/overcommit_ratio
