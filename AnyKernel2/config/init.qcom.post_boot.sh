@@ -366,3 +366,12 @@ case "$console_config" in
         echo "Enable console config to $console_config"
         ;;
 esac
+
+# Check panel_name
+panel_model=`cat /sys/class/graphics/fb0/msm_fb_panel_info | grep panel_name`
+default_color = `getprop vendor.display.enable_default_color_mode`
+if [ "$panel_model" == "panel_name=nt35596 tianma fhd video mode dsi panel" ]; then
+	if ["$default_color" == "1"]; then
+		setprop vendor.display.enable_default_color_mode 0
+	fi
+fi

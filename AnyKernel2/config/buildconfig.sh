@@ -17,3 +17,9 @@ echo " echo 650000000 > /sys/class/kgsl/kgsl-3d0/devfreq/max_freq" >> /tmp/init.
 echo " echo 650000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk" >> /tmp/init.inferno.sh
 
 echo "" >> /tmp/init.inferno.sh
+
+echo "# kcal" >> /tmp/init.inferno.sh
+echo "echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
+echo "echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
+
+echo "" >> /tmp/init.inferno.sh
