@@ -92,7 +92,6 @@ function configure_memory_parameters() {
     chmod 666 /sys/module/lowmemorykiller/parameters/minfree
     chown root /sys/module/lowmemorykiller/parameters/minfree
     echo "21816,29088,36360,43632,50904,65448" > /sys/module/lowmemorykiller/parameters/minfree
-    adjZeroMinFree=14746
     clearPercent=$((((adjZeroMinFree * 100) / MemTotalPg) + 1))
     echo $clearPercent > /sys/module/zcache/parameters/clear_percent
     echo 30 >  /sys/module/zcache/parameters/max_pool_percent
