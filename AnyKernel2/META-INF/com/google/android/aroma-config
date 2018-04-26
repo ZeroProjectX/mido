@@ -142,7 +142,7 @@ selectbox(
   "Franco","",0,
   "Deep Black Colorful","",0,
   "WrinkleeFree Cool","",0,
-  "specific RGB for tianma display(nt35596),"(to prevent retention issues)",0,
+  "specific RGB for tianma display(nt35596)","(to prevent retention issues)",0,
   "Custom vibrator intensity","",2,
   "30%","",0,
   "50%","",1,
