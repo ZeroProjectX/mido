@@ -447,4 +447,6 @@ if [ "$panel_model" == "panel_name=nt35596 tianma fhd video mode dsi panel" ]; t
 	if ["$default_color" == "1"]; then
 		setprop vendor.display.enable_default_color_mode 0
 	fi
+		echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal
+		echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat
 fi
