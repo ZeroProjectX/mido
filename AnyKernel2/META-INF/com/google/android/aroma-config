@@ -83,7 +83,7 @@ endif;
 if prop("menu.prop", "selected")=="2" then
 alert(
   "WARNING:",
-  "<b>Warning!</b> The options for setting manually custom ramdisk, if your not understand to setting manually just use automatic (one-tap install). \n\n@yoedi_7: hope you enjoy what you choose, Press OK to continue\n\n",
+  "<b>Warning!</b> The options for setting manually custom ramdisk, if your not understand to setting, just use automatic (one-tap install). \n\nKarena langit tak perlu memberi tahu bahwa dirinya tinggi, Press OK to continue\n\n",
   "@dragon",
   "OK"
 );
