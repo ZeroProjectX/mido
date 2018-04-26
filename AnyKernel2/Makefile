@@ -1,4 +1,4 @@
-NAME ?= Inferno-Oreo-test-mido
+NAME ?= Inferno-Oreo-v1.8-mido
 
 DATE := $(shell date +'%Y%m%d-%H%M')
 

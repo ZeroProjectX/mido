@@ -117,7 +117,7 @@ if [ "$choice" == "4" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   cd $ZIP_DIR
   make clean &>/dev/null
-  git --no-pager log --pretty=format:"%s" --abbrev-commit cc4714e2..HEAD > $AROMA
+  git --no-pager log --pretty=format:"%s" --abbrev-commit 335854c4..HEAD > $AROMA
   cp $KERN_IMG $ZIP_DIR/anykernel
   mkdir $ZIP_DIR/anykernel/treble-supported
   mkdir $ZIP_DIR/anykernel/treble-unsupported
