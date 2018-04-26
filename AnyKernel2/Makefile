@@ -20,4 +20,5 @@ clean:
 	@rm -vf "$(NAME)-"*.zip*
 	@rm -vf anykernel/Image.gz
 	@rm -rvf anykernel/treble*
+	@rm -vf META-INF/com/google/android/aroma/changelog.txt
 	@echo "Done."

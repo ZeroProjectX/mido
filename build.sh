@@ -34,6 +34,7 @@ DTB1=$KERNEL_DIR/out/arch/arm64/boot/dts/qcom/msm8953-qrd-sku3-mido-nt.dtb
 DTB2=$KERNEL_DIR/out/arch/arm64/boot/dts/qcom/msm8953-qrd-sku3-mido.dtb
 ZIP_DIR=$KERNEL_DIR/AnyKernel2
 CONFIG_DIR=$KERNEL_DIR/arch/arm64/configs
+AROMA=$ZIP_DIR/META-INF/com/google/android/aroma/changelog.txt
 
 #export
 export KBUILD_BUILD_USER="Cangkuls"
@@ -116,6 +117,7 @@ if [ "$choice" == "4" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   cd $ZIP_DIR
   make clean &>/dev/null
+  git --no-pager log --pretty=format:"%s" --abbrev-commit cc4714e2..HEAD > $AROMA
   cp $KERN_IMG $ZIP_DIR/anykernel
   mkdir $ZIP_DIR/anykernel/treble-supported
   mkdir $ZIP_DIR/anykernel/treble-unsupported
