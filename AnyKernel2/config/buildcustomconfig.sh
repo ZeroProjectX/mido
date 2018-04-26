@@ -137,9 +137,12 @@ echo "  echo 251 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.infe
 echo "  echo 254 > /sys/devices/platform/kcal_ctrl.0/kcal_val" >> /tmp/init.inferno.sh
 echo "  echo 256 > /sys/devices/platform/kcal_ctrl.0/kcal_cont" >> /tmp/init.inferno.sh
 echo "  echo 1515 > /sys/devices/platform/kcal_ctrl.0/kcal_hue" >> /tmp/init.inferno.sh
-else
+elif [ $misc = 7 ]; then
 echo "  echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
 echo "  echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
+else
+echo "  echo 256 256 256 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
+echo "  echo 255 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
 fi
 
 echo "" >> /tmp/init.inferno.sh
