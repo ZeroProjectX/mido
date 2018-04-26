@@ -19,4 +19,5 @@ $(ZIP):
 clean:
 	@rm -vf "$(NAME)-"*.zip*
 	@rm -vf anykernel/Image.gz-dtb
+	@rm -vf META-INF/com/google/android/aroma/changelog.txt
 	@echo "Done."
