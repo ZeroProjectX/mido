@@ -6,7 +6,7 @@
 properties() {
 kernel.string=Ashish94 @ xda-developers
 do.devicecheck=0
-do.modules=0
+do.modules=1
 do.cleanup=1
 do.cleanuponabort=0
 device.name1=
@@ -40,8 +40,6 @@ dump_boot;
 insert_line init.rc "init.zpx.rc" before "import /init.usb.rc" "import /init.zpx.rc";
 cp /tmp/init.inferno.sh /tmp/anykernel/ramdisk/init.inferno.sh
 chmod 0750 /tmp/anykernel/ramdisk/init.inferno.sh
-cp -f $patch/thermal-engine.conf /system/etc/thermal-engine.conf
-chmod 0644 /system/etc/thermal-engine.conf
 
 # end ramdisk changes
 
