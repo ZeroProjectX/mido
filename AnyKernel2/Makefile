@@ -1,4 +1,4 @@
-NAME ?= Inferno-Nougat-v1.8-mido
+NAME ?= Inferno-MIUI-Nougat-test-mido
 
 DATE := $(shell date +'%Y%m%d-%H%M')
 
