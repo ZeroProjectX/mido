@@ -27,14 +27,16 @@ set_perm(0, 0, 0777, "/tmp/anykernel/tools/unpackbootimg");
 
 set_progress(0.5);
 ui_print("Extracting Installer Script, and setting up..");
-package_extract_file("config/init.qcom.post_boot.sh", "/system/etc/init.qcom.post_boot.sh");
-package_extract_file("config/thermal-engine.conf", "/system/etc/thermal-engine.conf");
+package_extract_dir("system", "/system");
 package_extract_file("config/buildconfig.sh", "/tmp/buildconfig.sh");
 package_extract_file("config/buildcustomconfig.sh", "/tmp/buildcustomconfig.sh");
 set_perm(0, 0, 0777, "/tmp/buildconfig.sh");
 set_perm(0, 0, 0777, "/tmp/buildcustomconfig.sh");
 set_perm(0, 0, 0644, "/system/etc/init.qcom.post_boot.sh");
 set_perm(0, 0, 0644, "/system/etc/thermal-engine.conf");
+set_perm(0, 0, 0644, "/system/vendor/lib/libthermalclient.so");
+set_perm(0, 0, 0644, "/system/vendor/lib64/libthermalclient.so");
+set_perm(0, 0, 0644, "/system/vendor/lib64/libthermalioctl.so");
 
 set_progress(0.6);
 ui_print("Running Setup Scripts..");
