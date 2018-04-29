@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 3.18.106 Kernel Configuration
+# Linux/arm64 3.18.107 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -1255,7 +1255,7 @@ CONFIG_USB_EXT_TYPE_C_PERICOM=y
 #
 # CONFIG_ALTERA_STAPL is not set
 CONFIG_MSM_QDSP6V2_CODECS=y
-CONFIG_MSM_ULTRASOUND=y
+# CONFIG_MSM_ULTRASOUND is not set
 # CONFIG_MSM_MCU_TIME_SYNC is not set
 
 #
@@ -3868,7 +3868,7 @@ CONFIG_ARM_SMMU=y
 # SOC (System On Chip) specific Drivers
 #
 # CONFIG_MSM_HAB is not set
-CONFIG_CP_ACCESS64=y
+# CONFIG_CP_ACCESS64 is not set
 # CONFIG_MSM_INRUSH_CURRENT_MITIGATION is not set
 CONFIG_MSM_QDSP6_APRV2=y
 # CONFIG_MSM_GLADIATOR_ERP is not set
