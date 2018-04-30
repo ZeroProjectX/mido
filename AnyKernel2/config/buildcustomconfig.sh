@@ -138,8 +138,16 @@ echo "  echo 254 > /sys/devices/platform/kcal_ctrl.0/kcal_val" >> /tmp/init.infe
 echo "  echo 256 > /sys/devices/platform/kcal_ctrl.0/kcal_cont" >> /tmp/init.inferno.sh
 echo "  echo 1515 > /sys/devices/platform/kcal_ctrl.0/kcal_hue" >> /tmp/init.inferno.sh
 elif [ $misc = 7 ]; then
-echo "  echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
-echo "  echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
+echo " # Check panel_name" >> /tmp/init.inferno.sh
+echo " panel_model = \`cat /sys/class/graphics/fb0/msm_fb_panel_info | grep panel_name\`" >> /tmp/init.inferno.sh
+echo " default_color = \`getprop vendor.display.enable_default_color_mode\`" >> /tmp/init.inferno.sh
+echo " if [ \"$"panel_model"\" == \"panel_name=nt35596 tianma fhd video mode dsi panel\" ]; then" >> /tmp/init.inferno.sh
+echo " 	if [ \"$"default_color"\" == \"1\"]; then" >> /tmp/init.inferno.sh
+echo " 		setprop vendor.display.enable_default_color_mode 0" >> /tmp/init.inferno.sh
+echo " 	fi" >> /tmp/init.inferno.sh
+echo " 		echo 237 237 237 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
+echo " 		echo 258 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
+echo " fi" >> /tmp/init.inferno.sh
 else
 echo "  echo 256 256 256 > /sys/devices/platform/kcal_ctrl.0/kcal" >> /tmp/init.inferno.sh
 echo "  echo 255 > /sys/devices/platform/kcal_ctrl.0/kcal_sat" >> /tmp/init.inferno.sh
