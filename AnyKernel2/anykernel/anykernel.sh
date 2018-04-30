@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() {
-kernel.string=Ashish94 @ xda-developers
+kernel.string=Zero ProjectX
 do.devicecheck=0
 do.modules=1
 do.cleanup=1
@@ -14,11 +14,12 @@ device.name2=
 device.name3=
 device.name4=
 device.name5=
-} # end properties 
+} # end properties
 
 # shell variables
 block=/dev/block/bootdevice/by-name/boot;
 is_slot_device=0;
+ramdisk_compression=auto;
 
 
 ## AnyKernel methods (DO NOT CHANGE)
@@ -26,17 +27,18 @@ is_slot_device=0;
 . /tmp/anykernel/tools/ak2-core.sh;
 
 
-## AnyKernel permissions
-# set permissions for included ramdisk files
+## AnyKernel file attributes
+# set permissions/ownership for included ramdisk files
 chmod -R 750 $ramdisk/*;
 chown -R root:root $ramdisk/*;
+
 
 ## AnyKernel install
 dump_boot;
 
 # begin ramdisk changes
 
-# add inferno initialization script
+#add init script
 insert_line init.rc "init.zpx.rc" before "import /init.usb.rc" "import /init.zpx.rc";
 cp /tmp/init.inferno.sh /tmp/anykernel/ramdisk/init.inferno.sh
 chmod 0750 /tmp/anykernel/ramdisk/init.inferno.sh
