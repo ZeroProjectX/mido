@@ -114,7 +114,7 @@ if [ "$choice" == "4" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   cd $ZIP_DIR
   make clean &>/dev/null
-  git --no-pager log --pretty=format:"%s" --abbrev-commit cc4714e2..HEAD > $AROMA
+  git --no-pager log --pretty=format:"%s" --abbrev-commit a788c874..HEAD > $AROMA
   cp $KERN_IMG $ZIP_DIR/anykernel
   make &>/dev/null
   cp $ZIP_DIR/*.zip* ~/mido/
