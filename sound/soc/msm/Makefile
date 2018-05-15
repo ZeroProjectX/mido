@@ -26,6 +26,7 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-msm8996.o
 
 # for MSM 8x16/8952 sound card driver
 snd-soc-msm8x16-objs := msm8952.o msm-audio-pinctrl.o
+CFLAGS_msm-audio-pinctrl.o := $(call cc-disable-warning, strlcpy-strlcat-size)
 snd-soc-msm8x16-objs += msm8952-slimbus.o msm8952-dai-links.o
 obj-$(CONFIG_SND_SOC_MSM8X16) += snd-soc-msm8x16.o
 
