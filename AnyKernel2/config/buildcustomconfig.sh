@@ -1,5 +1,4 @@
 #!/sbin/sh
-
 echo "  # min freq" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 cpu0=`grep selected.1 /tmp/aroma/cpu0.prop | cut -d '=' -f2`
 if [ $cpu0 = 1 ]; then
@@ -70,30 +69,36 @@ else
 echo "  echo zen > /sys/block/mmcblk0/queue/scheduler" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 fi
 
-echo "  # read ahead tune up" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
+echo "" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 
+echo "  # read ahead tune up" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 SCHED=`grep selected.2 /tmp/aroma/sched.prop | cut -d '=' -f2`
 if [ $SCHED = 1 ]; then
+echo "  echo 128 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 128 > /sys/block/sda/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 128 > /sys/block/sda/queue/nr_requests" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 128 > /sys/block/dm-0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 128 > /sys/block/dm-1/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 elif [ $SCHED = 2 ]; then
+echo "  echo 256 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 256 > /sys/block/sda/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 256 > /sys/block/sda/queue/nr_requests" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 256 > /sys/block/dm-0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 256 > /sys/block/dm-1/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 elif [ $SCHED = 3 ]; then
+echo "  echo 512 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 512 > /sys/block/sda/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 512 > /sys/block/sda/queue/nr_requests" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 512 > /sys/block/dm-0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 512 > /sys/block/dm-1/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 elif [ $SCHED = 4 ]; then
+echo "  echo 768 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 768 > /sys/block/sda/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 768 > /sys/block/sda/queue/nr_requests" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 768 > /sys/block/dm-0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 768 > /sys/block/dm-1/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 else
+echo "  echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 1024 > /sys/block/sda/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 1024 > /sys/block/sda/queue/nr_requests" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
 echo "  echo 1024 > /sys/block/dm-0/queue/read_ahead_kb" >> /tmp/anykernel/patch/init.qcom.post_boot.sh
