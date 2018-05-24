@@ -38,7 +38,7 @@ dump_boot;
 # begin ramdisk changes
 
 # add inferno initialization script
-insert_line init.rc "init.zpx.rc" before "import /init.usb.rc" "import /init.zpx.rc";
+insert_line init.rc "init.inferno.rc" before "import /init.usb.rc" "import /init.inferno.rc";
 
 # end ramdisk changes
 
